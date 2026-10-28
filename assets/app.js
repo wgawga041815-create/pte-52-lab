@@ -363,7 +363,7 @@
   const ui = { section: "all", type: "all" };
 
   function renderPractice() {
-    const types = Object.keys(TYPE).filter(t => ui.section === "all" || TYPE[t].sec === ui.section);
+    const types = Object.keys(TYPE).filter(t => QS.some(q => q.type === t) && (ui.section === "all" || TYPE[t].sec === ui.section));
     const list = QS.filter(q =>
       (ui.section === "all" || q.section === ui.section) &&
       (ui.type === "all" || q.type === ui.type));
@@ -402,7 +402,7 @@
   /* ---------------- progress ---------------- */
   function renderProgress() {
     const o = overall();
-    const rows = Object.keys(TYPE).map(t => {
+    const rows = Object.keys(TYPE).filter(t => QS.some(q => q.type === t)).map(t => {
       const s = statsFor(t);
       const acc = s.done ? Math.round(s.right / s.done * 100) : 0;
       return { t, ...s, acc };
